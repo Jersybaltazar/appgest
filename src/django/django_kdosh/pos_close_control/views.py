@@ -206,6 +206,7 @@ def pos_persist(request):
             end_state_amount=json_data["endState"]["amount"],
             end_state_note=json_data["endState"]["note"],
             json=request.body.decode("utf-8"),
+            # end_state_amount= json_data["endState"]["note"],
         )
         new_pos_session.save()
 

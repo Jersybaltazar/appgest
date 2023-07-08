@@ -21,8 +21,9 @@ export const getSheetFilename = (headers: Headers): string => {
   if (!content) throw new Error("Could not get filename at content");
   const filename = content.split(";")[1];
   if (!filename) throw new Error("Could not get filename at filename");
-  const sheetname = filename.split("=")[1];
+  const sheetname = filename.split("=")[1]; 
   return sheetname;
+  
 };
 
 export const getDateDiff = (dateStrFrom: string, dateStrTo: string): number => {

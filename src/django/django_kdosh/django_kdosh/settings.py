@@ -65,12 +65,13 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [],
         "APP_DIRS": True,
-        "OPTIONS": {
+        "OPTIONS": {  
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                
             ],
         },
     },
@@ -135,7 +136,7 @@ LOGOUT_REDIRECT_URL = "/"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "/static/"
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)  # your static/ files folder
@@ -147,8 +148,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # ODOO_CONFIG
 ODOO_URL = os.getenv(
-    "ODOO_URL", "https://oxe360-ooc-kdosh1-pre-prd11-0-5935095.dev.odoo.com"
+    "ODOO_URL", "https://oxe360-ooc-kdosh-150-staging-15-0-8741549.dev.odoo.com"
 )
-ODOO_DB = os.getenv("ODOO_DB", "oxe360-ooc-kdosh1-pre-prd11-0-5935095")
-ODOO_PWD = os.getenv("ODOO_PWD", "kdosh")
-ODOO_UID = os.getenv("ODOO_UID", "1")
+ODOO_DB = os.getenv("ODOO_DB", "oxe360-ooc-kdosh-150-staging-15-0-8741549")
+ODOO_PWD = os.getenv("ODOO_PWD", "20c5aaf29cc989036cc1708c4d8e10afeb531db3")
+ODOO_UID = os.getenv("ODOO_UID", "2")

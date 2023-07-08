@@ -88,6 +88,16 @@ export const Navbar = () => {
               >
                 Cambios
               </NavLink>
+              <NavLink
+               to={`${basePath}/`}
+               className={(navData) =>
+                `inline-block px-2 py-1 ${
+                  navData.isActive ? "bg-gray-100 text-gray-900" : ""
+               }`
+              }
+              tabIndex={-1}>
+                nuevo
+              </NavLink>
             </li>
           </ul>
         </nav>

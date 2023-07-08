@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { AddButton } from "./AddButton";
 import { AttributeTable } from "./AttributeTable";
 import { DefaultCodeTable } from "./DefaultCodeTable";
@@ -11,8 +12,18 @@ import { PriceField } from "./fields/PriceField";
 import { DefaultCodeField } from "./fields/DefaultCodeField";
 import { Wrapper } from "../../shared/Wrapper";
 import { ListPriceTable } from "./ListPriceTable";
+import { WeightField } from "./fields/WeigthField";
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { selectProductWeight, updateWeight, } from '../../../app/slice/product/productSlice';
+
 
 export const PPForm = () => {
+  const weight = useAppSelector(selectProductWeight);
+  const dispatch = useAppDispatch();
+  const handleWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = Number(e.target.value);
+    dispatch(updateWeight(newValue));
+  };
   return (
     <Wrapper>
       <div>
@@ -26,6 +37,9 @@ export const PPForm = () => {
           <PosCategoryField />
           <PriceField />
           <DefaultCodeField />
+        </div>
+        <div className='mb-2'>
+        <WeightField weight={weight} onWeightChange={handleWeight}/>
         </div>
         <div className="mb-2">
           <AttributeTable />

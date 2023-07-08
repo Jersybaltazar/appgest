@@ -155,6 +155,7 @@ export const DatePicker = ({ name, value, updateDate }: DatePickerProps) => {
                       ? "bg-emerald-400 text-white"
                       : "text-gray-700 hover:bg-gray-200"
                   }`}
+                  
                 >
                   {date.day}
                 </div>

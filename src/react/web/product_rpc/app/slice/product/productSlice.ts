@@ -5,6 +5,7 @@ import {
   ProductCategoryBrand,
   ProductCategoryFamily,
   ProductCategoryLine,
+  ProductWeight,
 } from "../../../types/catalogs";
 import { ProductProductForm } from "../../../types/product";
 import { TagData } from "../../../types/tag";
@@ -30,39 +31,28 @@ const initialState: ProductState = {
   attrs: [],
   attr_default_code: [],
   attr_list_price: [],
+  weight:0,//añadiendo el nuevo campo
 };
 
 export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
+    
     updateName: (state, { payload }: PayloadAction<{ name: string }>) => {
       state.name = payload.name;
     },
-    updateListPrice: (
-      state,
-      { payload }: PayloadAction<{ listPrice: number }>
-    ) => {
+
+    updateListPrice: (state,{ payload }: PayloadAction<{ listPrice: number }>) => {
       state.list_price = payload.listPrice;
     },
-    updateDefaultCode: (
-      state,
-      { payload }: PayloadAction<{ defaultCode: string }>
-    ) => {
+
+    updateDefaultCode: (state,{ payload }: PayloadAction<{ defaultCode: string }>) => {
       state.default_code = payload.defaultCode;
     },
-    updateLine: (
-      state,
-      {
-        payload,
-      }: PayloadAction<{
-        categoryLineId: number;
-        categoryLines: ProductCategoryLine[];
-      }>
-    ) => {
-      const categoryLine = payload.categoryLines.find(
-        (line) => line.id === payload.categoryLineId
-      );
+
+    updateLine: (state,{payload,}: PayloadAction <{categoryLineId: number;categoryLines: ProductCategoryLine[];}>) => {
+      const categoryLine = payload.categoryLines.find((line) => line.id === payload.categoryLineId);
       if (categoryLine) {
         state.category_line_id = categoryLine.id;
         state.category_line_name = categoryLine.name;
@@ -75,18 +65,9 @@ export const productSlice = createSlice({
       state.category_brand_id = 0;
       state.category_brand_name = "";
     },
-    updateFamily: (
-      state,
-      {
-        payload,
-      }: PayloadAction<{
-        categoryFamilyId: number;
-        categoryFamilies: ProductCategoryFamily[];
-      }>
-    ) => {
-      const categoryFamily = payload.categoryFamilies.find(
-        (family) => family.id === payload.categoryFamilyId
-      );
+
+    updateFamily: (state,{payload,}: PayloadAction<{categoryFamilyId: number;categoryFamilies: ProductCategoryFamily[];}>) => {
+      const categoryFamily = payload.categoryFamilies.find((family) => family.id === payload.categoryFamilyId);
       if (categoryFamily) {
         state.category_family_id = categoryFamily.id;
         state.category_family_name = categoryFamily.name;
@@ -97,18 +78,9 @@ export const productSlice = createSlice({
       state.category_brand_id = 0;
       state.category_brand_name = "";
     },
-    updateBrand: (
-      state,
-      {
-        payload,
-      }: PayloadAction<{
-        categoryBrandId: number;
-        categoryBrands: ProductCategoryBrand[];
-      }>
-    ) => {
-      const categoryBrand = payload.categoryBrands.find(
-        (brand) => brand.id === payload.categoryBrandId
-      );
+
+    updateBrand: (state,{payload,}: PayloadAction<{categoryBrandId: number;categoryBrands: ProductCategoryBrand[];}>) => {
+      const categoryBrand = payload.categoryBrands.find((brand) => brand.id === payload.categoryBrandId);
       if (categoryBrand) {
         state.category_brand_id = categoryBrand.id;
         state.category_brand_name = categoryBrand.name;
@@ -117,15 +89,9 @@ export const productSlice = createSlice({
         state.category_brand_name = "Seleccione";
       }
     },
-    updatePosCat: (
-      state,
-      {
-        payload,
-      }: PayloadAction<{ posCatId: number; posCategories: PosCategory[] }>
-    ) => {
-      const posCat = payload.posCategories.find(
-        (posCat) => posCat.id === payload.posCatId
-      );
+
+    updatePosCat: (state,{payload,}: PayloadAction<{ posCatId: number; posCategories: PosCategory[] }>) => {
+      const posCat = payload.posCategories.find((posCat) => posCat.id === payload.posCatId);
       if (posCat) {
         state.pos_categ_id = posCat.id;
         state.pos_categ_name = posCat.name;
@@ -134,16 +100,8 @@ export const productSlice = createSlice({
         state.pos_categ_name = "Seleccione";
       }
     },
-    updateAttr: (
-      state,
-      {
-        payload: { attrId, attrIndex, attributes },
-      }: PayloadAction<{
-        attrId: number;
-        attrIndex: number;
-        attributes: ProductAttribute[];
-      }>
-    ) => {
+    
+    updateAttr: (state,{payload: { attrId, attrIndex, attributes },}: PayloadAction<{attrId: number;attrIndex: number;attributes: ProductAttribute[];}>) => {
       // ATTRIBUTES MUST BEE DISTINCT
       if (!state.attrs.some((attr) => attr.attr.id === attrId)) {
         const newAttr = attributes.find((attr) => attr.id === attrId);
@@ -152,12 +110,8 @@ export const productSlice = createSlice({
         }
       }
     },
-    updateAttrVal: (
-      state,
-      {
-        payload: { newTags, attrId },
-      }: PayloadAction<{ newTags: TagData[]; attrId: number }>
-    ) => {
+
+    updateAttrVal: (state,{payload: { newTags, attrId },}: PayloadAction<{ newTags: TagData[]; attrId: number }>) => {
       let oldAttrVals = [];
       // TODO: improve code you might increment the array for new tags instead of replacing it
       state.attrs.forEach((attr) => {
@@ -181,6 +135,7 @@ export const productSlice = createSlice({
         state.attr_list_price = cartesianLP(groupedAttrLP, state.list_price);
       if (groupedAttrLP.length === 0) state.attr_list_price = [];
     },
+
     addAttr: (state) => {
       // CANNOT ADD A NEW ATTRIBUTE IF SOME ARE EMPTY
       if (state.attrs.some((attr) => attr.attr.id === 0)) return;
@@ -196,10 +151,8 @@ export const productSlice = createSlice({
         is_default_code_grouped: false,
       });
     },
-    deleteAttr: (
-      state,
-      { payload: { attrId } }: PayloadAction<{ attrId: number }>
-    ) => {
+
+    deleteAttr: (state,{ payload: { attrId } }: PayloadAction<{ attrId: number }>) => {
       const idx = state.attrs.findIndex((attr) => attr.attr.id === attrId);
       if (idx !== -1) {
         state.attrs.splice(idx, 1);
@@ -219,6 +172,7 @@ export const productSlice = createSlice({
         else state.attr_list_price = [];
       }
     },
+
     updateIsEditingAttr: (
       state,
       { payload: { attrIndex } }: PayloadAction<{ attrIndex: number }>
@@ -228,11 +182,8 @@ export const productSlice = createSlice({
         return attr;
       });
     },
-    updateGroupedAttr: (
-      state,
-      {
-        payload: { attrChecked, attrId, groupedType },
-      }: PayloadAction<{
+
+    updateGroupedAttr: (state,{payload: { attrChecked, attrId, groupedType },}: PayloadAction<{
         attrChecked: boolean;
         attrId: number;
         groupedType: "dc" | "lp";
@@ -273,6 +224,10 @@ export const productSlice = createSlice({
         }
       }
     },
+    updateWeight: (state, { payload }: PayloadAction<{ weight: number }>) => {
+      state.weight = payload.weight;
+    },
+    
     updateAttrDefaultCode: (
       state,
       {
@@ -295,10 +250,8 @@ export const productSlice = createSlice({
         return attrLp;
       });
     },
-    replaceProduct: (
-      state,
-      { payload: { product } }: PayloadAction<{ product: ProductProductForm }>
-    ) => {
+
+    replaceProduct: (state,{ payload: { product } }: PayloadAction<{ product: ProductProductForm }>) => {
       state.id = product.id;
       state.is_in_list = product.is_in_list;
       state.name = product.name;
@@ -315,6 +268,7 @@ export const productSlice = createSlice({
       state.attrs = product.attrs;
       state.attr_default_code = product.attr_default_code;
       state.attr_list_price = product.attr_list_price;
+      state.weight = product.weight;// aumentando para el peso
     },
     reset: (state) => {
       state.id = new Date().getTime();
@@ -333,6 +287,7 @@ export const productSlice = createSlice({
       state.attrs = [];
       state.attr_default_code = [];
       state.attr_list_price = [];
+      state.weight = 0;
     },
   },
 });
@@ -355,29 +310,22 @@ export const {
   updateAttrListPrice,
   replaceProduct,
   reset,
+  updateWeight
 } = productSlice.actions;
 
 export const selectProduct = (state: RootState) => state.product.product;
 export const selectProductId = (state: RootState) => state.product.product.id;
-export const selectProductName = (state: RootState) =>
-  state.product.product.name;
-export const selectProductListPrice = (state: RootState) =>
-  state.product.product.list_price;
-export const selectProductDefaultCode = (state: RootState) =>
-  state.product.product.default_code;
-export const selectProductLineId = (state: RootState) =>
-  state.product.product.category_line_id;
-export const selectProductFamilyId = (state: RootState) =>
-  state.product.product.category_family_id;
-export const selectProductBrandId = (state: RootState) =>
-  state.product.product.category_brand_id;
-export const selectProductPosId = (state: RootState) =>
-  state.product.product.pos_categ_id;
-export const selectProductAttribute = (state: RootState) =>
-  state.product.product.attrs;
-export const selectProductAttrDefaultCode = (state: RootState) =>
-  state.product.product.attr_default_code;
-export const selectProductAttrListPrice = (state: RootState) =>
-  state.product.product.attr_list_price;
+export const selectProductName = (state: RootState) =>state.product.product.name;
+export const selectProductListPrice = (state: RootState) =>state.product.product.list_price;
+export const selectProductDefaultCode = (state: RootState) =>state.product.product.default_code;
+export const selectProductLineId = (state: RootState) =>state.product.product.category_line_id;
+export const selectProductFamilyId = (state: RootState) =>state.product.product.category_family_id;
+export const selectProductBrandId = (state: RootState) =>state.product.product.category_brand_id;
+export const selectProductPosId = (state: RootState) =>state.product.product.pos_categ_id;
+export const selectProductAttribute = (state: RootState) =>state.product.product.attrs;
+export const selectProductAttrDefaultCode = (state: RootState) =>state.product.product.attr_default_code;
+export const selectProductAttrListPrice = (state: RootState) =>state.product.product.attr_list_price;
+
+ export const selectProductWeight = (state: RootState)=>state.product.product.weight;
 
 export default productSlice.reducer;

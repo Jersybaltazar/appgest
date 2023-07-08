@@ -3,11 +3,12 @@ import json
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods
 
-from .refund import get_invoice, invoice_refund
+from .refund import get_invoice, invoice_refund 
 from .attribute import get_attribute_vals as get_attr_vals, update_attribute_vals
 from .reports.reports import get_cpe_report, get_eq_report, get_fc_report
 from .parser import transform_order_json, order_client_result
 from .purchase_order import search_product_by_name, get_order_item, create_order
+
 from .product import create_products_v2
 from .catalogs.cats import (
     update_product_catalogs,
@@ -17,6 +18,8 @@ from .catalogs.cats import (
 )
 from .catalogs.cat_type import CatType
 from django.views.decorators.csrf import csrf_exempt
+
+
 
 
 def get_catalogs(request, type):
@@ -33,6 +36,8 @@ def get_catalogs(request, type):
 
 @csrf_exempt
 @require_http_methods(["POST"])
+
+
 def update_catalogs(request, type):
     try:
         if type == CatType.product.value:
@@ -49,6 +54,8 @@ def update_catalogs(request, type):
 
 @csrf_exempt
 @require_http_methods(["POST"])
+
+
 def save_product(request):
     try:
         raw_json = json.loads(request.body)
@@ -82,6 +89,7 @@ def get_purchase_order_product(request):
 
 @csrf_exempt
 @require_http_methods(["POST"])
+
 def save_order(request):
     try:
         raw_json = json.loads(request.body)
@@ -97,6 +105,7 @@ def save_order(request):
 
 @csrf_exempt
 @require_http_methods(["POST"])
+
 def get_report(request, type):
     try:
         raw_json = json.loads(request.body)
@@ -140,6 +149,7 @@ def get_attribute_vals(request):
 
 @csrf_exempt
 @require_http_methods(["POST"])
+
 def sort_attribute_vals(request):
     raw_json = json.loads(request.body)
     update_attribute_vals(request.GET.get("attrId"), raw_json["new_attrs_sort"])
@@ -162,6 +172,7 @@ def get_invoice_details(request):
 
 @csrf_exempt
 @require_http_methods(["POST"])
+
 def create_refund_invoice(request):
     try:
         raw_json = json.loads(request.body)

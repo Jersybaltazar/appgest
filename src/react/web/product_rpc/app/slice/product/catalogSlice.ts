@@ -11,8 +11,9 @@ const initialState: CatalogState = {
   pos_category: [],
   product_attribute: [],
   product_attribute_value: [],
+  product_weight:[],
 };
-
+  
 export const catalogSlice = createSlice({
   name: "catalog",
   initialState,

@@ -1,7 +1,9 @@
 import React from 'react';
 
 const Home = () => {
-  return <div>🏡</div>;
+  return <div>🏡
+    Kdosh Store
+  </div>;
 };
 
 export default Home;

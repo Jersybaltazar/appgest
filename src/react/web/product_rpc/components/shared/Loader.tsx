@@ -20,7 +20,7 @@ export const Loader = ({ fetchStatus, portal }: LoaderProps) => {
     >
       <div className="flex items-center justify-center w-full h-full">
         <div className="flex items-center rounded p-2 bg-white">
-          <span className="text-sm">Cargando</span>
+          <span className="text-sm">Actualizando</span>
           <div className="lds-dual-ring"></div>
         </div>
       </div>
