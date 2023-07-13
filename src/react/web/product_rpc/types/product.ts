@@ -1,3 +1,4 @@
+import { number } from "yup";
 import { ProductAttribute, ProductAttributeValue } from "./catalogs";
 
 interface Attr {
@@ -13,7 +14,7 @@ interface AttrDefaultCodeMap {
 export interface ProductProduct {
   name: string;
   list_price: number;
-  categ_id: number;
+  categ_id: number; //manejado por la tabla product_category
   pos_categ_id: number;
   attrs: Attr[];
   attr_default_code_map: AttrDefaultCodeMap[];
@@ -51,8 +52,8 @@ export interface ProductProductForm {
   odoo_link?: string;
   // product props
   name: string;
-  list_price: number;
-  default_code: string;
+  list_price: number; //precio
+  default_code: string; //referencia interna
   category_line_name: string;
   category_line_id: number;
   category_family_name: string;
@@ -61,10 +62,12 @@ export interface ProductProductForm {
   category_brand_id: number;
   pos_categ_id: number;
   pos_categ_name: string;
+  weight_name:string;//agregando el campo peso
+  weight_id: number; //el id y arriba el nombre
   attrs: AttributeForm[];
   attr_default_code: AttributeDefaultCodeForm[];
   attr_list_price: AttributeListPrice[];
-  weight:number;//agregando el campo peso
+  
 }
 
 export interface ProductResult {

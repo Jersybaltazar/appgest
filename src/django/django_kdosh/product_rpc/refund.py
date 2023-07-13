@@ -1021,7 +1021,7 @@ def invoice_refund(invoice_details, stock_location):
     """
     dict_model = json.loads(json_model)
     dict_model["params"]["args"][1]["uid"] = uid
-    dict_model["params"]["args"][0][0] = account_payment_id
+    dict_model["params"]["args"][0][0] = account_payment_id 
     dict_model["params"]["args"][1]["active_id"] = refund_id
     dict_model["params"]["args"][1]["active_ids"][0] = refund_id
     dict_model["params"]["args"][1]["default_invoice_ids"][0][1] = refund_id

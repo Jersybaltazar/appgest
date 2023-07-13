@@ -78,15 +78,14 @@ export const useDataList = <T extends TagData>(
         });
     } else if (key === "ArrowDown") {
       if (suggestions.length === 0) return;
-      let currSuggestIndex =
-        suggestions.findIndex((suggest) => suggest.id === currSuggestId) + 1;
+      let currSuggestIndex = suggestions.findIndex((suggest) => suggest.id === currSuggestId) + 1;
       if (currSuggestIndex === suggestions.length) currSuggestIndex = 0;
       const newCurrSuggestId = suggestions[currSuggestIndex].id;
       if (listRef.current) {
         const currentList = [...listRef.current.children] as HTMLLIElement[];
         currentList.forEach((li) => {
           if (li.value === newCurrSuggestId)
-            li.scrollIntoView({ block: "nearest" });
+            li.scrollIntoView({ block: "nearest" });  
         });
       }
       dispatch({

@@ -81,7 +81,7 @@ function App() {
           className="m-4 flex flex-col w-[250px] gap-2 border-b pb-2"
           onSubmit={handleSubmit}
         >
-          <label>Número Boleta:</label>
+          <label>Número Boleta :</label>
           <input
             type="text"
             className="border"

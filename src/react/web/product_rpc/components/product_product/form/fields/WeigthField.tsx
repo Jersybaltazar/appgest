@@ -1,12 +1,11 @@
 import React from "react";
 import {useAppDispatch, useAppSelector} from "../../../../app/hooks";
-import { updateWeight
-} from "../../../../app/slice/product/productSlice";
+import { updateWeight} from "../../../../app/slice/product/productSlice";
 
 
 interface WeightFieldProps{
-    weight:number;
-    onWeightChange:(value:number)=>void;
+    weight:number; // representa el peso actual del producto
+    onWeightChange:(value:number)=>void; // se llamara  cuando el valor cambie
 }
 
     export const WeightField:React.FC<WeightFieldProps> = ({

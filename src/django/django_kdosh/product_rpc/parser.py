@@ -6,9 +6,11 @@ from .utils.sql import select
 
 def transform_product_json(data):
     transf_obj = []
+    
     for prod in data:
         default_code_map = []
         list_price_map = []
+
         for attr_dc in prod["attr_default_code"]:
             default_code_map.append(
                 {

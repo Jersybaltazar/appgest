@@ -26,7 +26,7 @@ export interface Partner extends CatalogGeneric {
   vat: string;
 }
 export interface ProductWeight extends CatalogGeneric{
-  parent_id:number; //cambios
+  parent_id: number; //cambios
 }
 
 export interface Catalogs {

@@ -72,6 +72,7 @@ class Migration(migrations.Migration):
                 ("parent_id", models.IntegerField()),
                 ("name", models.CharField(max_length=200)),
                 ("display_name", models.CharField(max_length=200)),
+                ("weight",models.DecimalField(max_digits=5, decimal_places=2, default=0.0))
             ],
             options={
                 "db_table": "rpc_product_category",

@@ -33,7 +33,7 @@ class Product:
         self.company_id = False
         self.description = "<p><br></p>"
         self.available_in_pos = True
-        self.to_weight = False
+        self.to_weight = False #aqui
         self.description_sale = False
         self.seller_ids = []
         self.supplier_taxes_id = [[6, False, [6]]]
@@ -41,7 +41,6 @@ class Product:
         self.description_purchase = False
         self.purchase_line_warn = "no-message"
         self.route_ids = [[6, False, [5]]]
-        self.weight = 0
         self.volume = 0
         self.sale_delay = 0
         self.tracking = "none"
@@ -65,10 +64,12 @@ class Product:
         self.name = None
         self.default_code = None
         self.list_price = None
+        self.weight = None  #aqui      
         self.categ_id = None
         self.pos_categ_id = None
         self.attribute_line_ids = []
 
+#metodos privados
     def __set_attrs(self, attr_lines):
         virtual_count = 1110  ## just because
 
@@ -85,17 +86,19 @@ class Product:
                 ]
             )
             virtual_count += 10
-
+#metodos publicos
     def set_responsible_id(self, id):
         self.responsible_id = id
 
     def set_product_dict(self, dict):
         self.name = dict["name"]
         self.default_code = dict["default_code"]
+       
         self.list_price = dict["list_price"]
         self.categ_id = dict["categ_id"]
         self.pos_categ_id = dict["pos_categ_id"]
         self.attribute_line_ids = []
+        self.weight = dict["weigth"] #modificado
         self.__set_attrs(dict["attribute_line_ids"])
 
     def clear_prod_vals(self):
@@ -104,6 +107,7 @@ class Product:
         self.list_price = None
         self.categ_id = None
         self.pos_categ_id = None
+        self.weight = None #modificado
         self.attribute_line_ids = []
 
 
@@ -185,6 +189,7 @@ def create_product_new(
 ):
     # CREATE PRODUCT
     tmpl_id = rpc.create_model("product.template", product_template, uid, proxy=proxy)
+    
     # CREATE COMMENT
     comment_obj = {
         "body": f"Creado por: {user.first_name} {user.last_name}",
@@ -218,6 +223,8 @@ def create_product_new(
                         ptav_item["product_attribute_value_id"][0]
                     )
                     break
+
+
         pp_item["product_attribute_value_ids"] = product_attribute_value_ids
 
     for lp_item in list_price_map:
@@ -225,6 +232,7 @@ def create_product_new(
             if lp_item["ids"][0] == ptav_item["product_attribute_value_id"][0]:
                 lp_item["ids"][0] = ptav_item["id"]
                 break
+
 
     edit_product_default_code(
         default_code_map, product_product_list, product_template, uid, proxy
@@ -255,10 +263,11 @@ def product_new(transf_list, uid, pid, user):
             uid,
             proxy,
             user,
+            
         )
         product_template.clear_prod_vals()
         product_tmpl_ids.append(tmpl_id)
-
+        
     return product_tmpl_ids
 
 
@@ -266,4 +275,5 @@ def create_products_v2(raw_data, curr_user):
     transf_list = transform_product_json(raw_data)
     product_tmpl_ids = product_new(transf_list, int(settings.ODOO_UID), 0, curr_user)
     product_results = product_client_result(product_tmpl_ids)
+    produc = product_client_result()
     return product_results

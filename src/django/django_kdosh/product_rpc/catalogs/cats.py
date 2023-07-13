@@ -18,7 +18,7 @@ def update_product_catalogs():
     cat_list = models.execute_kw(db, uid, password,
         'product.category', 'search_read',
         [[]],
-        {'fields': ['id', 'parent_id', 'name', 'display_name'],
+        {'fields': ['id', 'parent_id', 'name', 'display_name', 'weight'], 
         'context': {'lang': "es_PE"}})
 
     # POS CATEGORY
@@ -48,13 +48,14 @@ def update_product_catalogs():
     # attr {'id': 23, 'name': 'TALLAS BRASIERE'}
     # attr_line {'id': 2354, 'attribute_id': [45, 'COLORES MANUFACTURA SI'], 'name': 'FROST STONE', 'display_name': 'COLORES MANUFACTURA SI: FROST STONE'}
 
-    cat_objs = []
+    cat_objs = [] #almacenas los objetos de productcategory
     for item in cat_list:
         cat_objs.append(ProductCategory(
             id=item["id"],
-            parent_id=0 if type(item["parent_id"]) == bool else item["parent_id"][0],
+            parent_id= 0 if type(item["parent_id"]) == bool else item["parent_id"][0],
             name=item["name"],
             display_name=item["display_name"],
+            weight=item["weight"],
         ))
     ProductCategory.objects.all().delete()
     ProductCategory.objects.bulk_create(cat_objs)
@@ -66,6 +67,7 @@ def update_product_catalogs():
             parent_id=0 if type(item["parent_id"]) == bool else item["parent_id"][0],
             name=item["name"],
             display_name=item["display_name"],
+            
         ))
     PosCategory.objects.all().delete()
     PosCategory.objects.bulk_create(cat_pos_objs)
@@ -92,22 +94,22 @@ def update_product_catalogs():
 
 
 def get_product_catalogs():
-    catalogs = {}
+    catalogs = {} #diccionario
     # ------------ GET PRODUCT_CATEGORY ------------
     query_product_category = """
-        with recursive category (level, id, parent_id, name) as (
-            select 1, pc.id, pc.parent_id, pc."name"
+        with recursive category (level, id, parent_id, name, weight) as (
+            select 1, pc.id, pc.parent_id, pc."name", pc.weight
             from rpc_product_category pc
             where pc.parent_id = 0
                 and id not in (1, 3, 5816, 6784)
                 -- filter All, INSUMOS, DESCUENTO, OLYMPO
             union all
-            select c.level + 1, pc2.id, pc2.parent_id, pc2."name"
+            select c.level + 1, pc2.id, pc2.parent_id, pc2."name", pc2.weight
             from rpc_product_category pc2
                     inner join category c
                                 on c.id = pc2.parent_id
         )
-        select level, id, parent_id, name from category
+        select level, id, parent_id, name, weight from category
         order by name;
     """
 
@@ -116,12 +118,14 @@ def get_product_catalogs():
         {"field": "id", "i": 1},
         {"field": "parent_id", "i": 2},
         {"field": "name", "i": 3},
+        {"field": "weight", "i": 4},
     ]
     catalogs["product_category_line"] = [tuple_to_dictionary(cat, cat_mapper) for cat in product_category if cat[0] == 1 ]
     catalogs["product_category_family"] = [tuple_to_dictionary(cat, cat_mapper) for cat in product_category if cat[0] == 2 ]
     catalogs["product_category_brand"] = [tuple_to_dictionary(cat, cat_mapper) for cat in product_category if cat[0] == 3 ]
 
     # ------------ GET POS_CATEGORY ------------
+    
     query_pos_category = """
         with recursive category (level, id, parent_id, name) as (
             select 1, pc.id, pc.parent_id, pc."name"

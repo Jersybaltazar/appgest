@@ -42,7 +42,7 @@ const NavBar = () => {
           className={({ isActive }) => getLinkStyles(isActive)}
           to={`${basePath}/discount`}
         >
-          DESC
+          DESC.
         </NavLink>
       </nav>
     </>

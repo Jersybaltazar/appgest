@@ -20,9 +20,8 @@ import { selectProductWeight, updateWeight, } from '../../../app/slice/product/p
 export const PPForm = () => {
   const weight = useAppSelector(selectProductWeight);
   const dispatch = useAppDispatch();
-  const handleWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = Number(e.target.value);
-    dispatch(updateWeight(newValue));
+  const handleWeightChange = (value: number) => {
+    dispatch(updateWeight(value));
   };
   return (
     <Wrapper>
@@ -39,7 +38,7 @@ export const PPForm = () => {
           <DefaultCodeField />
         </div>
         <div className='mb-2'>
-        <WeightField weight={weight} onWeightChange={handleWeight}/>
+        <WeightField weight={weight} onWeightChange={handleWeightChange}/>
         </div>
         <div className="mb-2">
           <AttributeTable />
